@@ -48,6 +48,7 @@ Temporary Items
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff:
+.idea/
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
@@ -241,5 +242,7 @@ $RECYCLE.BIN/
 # Build folder
 
 */build/*
+.aws-sam/
+.aws-sam/build.toml
 
 # End of https://www.gitignore.io/api/osx,linux,python,windows,pycharm,visualstudiocode
