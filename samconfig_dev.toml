@@ -2,9 +2,9 @@ version = 0.1
 [default]
 [default.deploy]
 [default.deploy.parameters]
-stack_name = "production"
+stack_name = "dev"
 s3_bucket = "sam-test-luis"
-s3_prefix = "sam-app"
+s3_prefix = "sam-app-dev"
 region = "us-east-1"
 capabilities = "CAPABILITY_IAM"
 image_repositories = []

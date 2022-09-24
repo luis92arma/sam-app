@@ -17,9 +17,7 @@ Resources:
   LambdaInvokePermission:
     Type: AWS::Lambda::Permission
     Properties:
-      FunctionName: !GetAtt
-        - HelloWorldFunction
-        - Arn
+      FunctionName: !Ref AliasProduction
       Action: "lambda:InvokeFunction"
       Principal: elasticloadbalancing.amazonaws.com
 
@@ -34,7 +32,7 @@ Resources:
           PathPatternConfig:
             Values:
               - /hola.txt
-      ListenerArn: arn:aws:elasticloadbalancing:us-east-1:562080862179:listener/app/MyLoadBalancer/3a53d9835b551ef0/58925ecf4ea44502
+      ListenerArn: arn:aws:elasticloadbalancing:us-east-1:562080862179:listener/app/Kentriki01/318557fd4d1a6ad4/a214fb9369cd3a2c
       Priority: 1
 
   LambdaTargetGroup:
@@ -44,17 +42,32 @@ Resources:
       Name: TargetGroupProduction
       TargetType: lambda
       Targets:
-        - Id: !GetAtt [ HelloWorldFunction, Arn ]
+        - Id: !Ref AliasProduction
+
+  AliasProduction:
+    Type: AWS::Lambda::Alias
+    Properties:
+      FunctionName: !Ref HelloWorldFunction
+      FunctionVersion: !GetAtt Version.Version
+      Name: production
+
+  Version:
+    Type: AWS::Lambda::Version
+    Properties:
+      FunctionName: !Ref HelloWorldFunction
+      Description: $LATEST
 
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: hello_world/
       Description: Lambda como target
-      FunctionName: Hola
-      AutoPublishAlias: production
+      FunctionName: test-hola
+      Environment:
+        Variables:
+          PATH: production/
       Handler: app.lambda_handler
-      Role: !GetAtt [ LambdaExecutionRole, Arn ]
+      Role: arn:aws:iam::562080862179:role/service-role/test-role-tzbzoj9u
       Runtime: python3.9
       Architectures:
         - x86_64
@@ -69,8 +82,20 @@ Resources:
             Principal:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
+          - Effect: Allow
+            Principal:
+              Service: s3.amazonaws.com
+            Action: sts:AssumeRole
 
 Outputs:
   HelloWorldFunction:
     Description: "Hello World Lambda Function ARN"
     Value: !GetAtt HelloWorldFunction.Arn
+    Export:
+      Name: !Sub ${AWS::StackName}-FunctionArn
+
+  Version:
+    Description: "Latest version for HelloWorldFunction"
+    Value: !GetAtt Version.Version
+    Export:
+      Name: !Sub ${AWS::StackName}-FunctionVersion

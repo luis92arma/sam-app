@@ -1,6 +1,7 @@
 import json
 
 # import requests
+import os
 
 
 def lambda_handler(event, context):
@@ -24,15 +25,8 @@ def lambda_handler(event, context):
 
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
-
-    # try:
-    #     ip = requests.get("http://checkip.amazonaws.com/")
-    # except requests.RequestException as e:
-    #     # Send some context about this error to Lambda Logs
-    #     print(e)
-
-    #     raise e
-
+    path = os.environ.get('PATH')
+    message = 'This is a message {}'.format(path)
     return {
         'isBase64Encoded': False,
         'statusCode': 200,
@@ -42,6 +36,6 @@ def lambda_handler(event, context):
             'Content-Type': 'application/json'
         },
         'body': json.dumps({
-            'message': 'hello world',
+            'message': message,
         }),
     }

@@ -1,0 +1,79 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "elasticloadbalancing:ModifyListener",
+                "elasticloadbalancing:RegisterTargets",
+                "iam:CreateRole",
+                "cloudformation:CreateChangeSet",
+                "elasticloadbalancing:SetRulePriorities",
+                "iam:PassRole",
+                "cloudformation:DescribeStackEvents",
+                "elasticloadbalancing:DescribeListeners",
+                "elasticloadbalancing:CreateRule",
+                "cloudformation:DescribeChangeSet",
+                "cloudformation:ExecuteChangeSet",
+                "lambda:CreateCodeSigningConfig",
+                "iam:ListPolicies",
+                "elasticloadbalancing:DescribeTags",
+                "elasticloadbalancing:CreateTargetGroup",
+                "iam:DeleteRole",
+                "elasticloadbalancing:DeregisterTargets",
+                "elasticloadbalancing:DeleteTargetGroup",
+                "cloudformation:GetTemplateSummary",
+                "cloudformation:DescribeStacks",
+                "elasticloadbalancing:ModifyRule",
+                "elasticloadbalancing:DescribeTargetHealth",
+                "elasticloadbalancing:DescribeTargetGroups",
+                "elasticloadbalancing:DescribeRules",
+                "elasticloadbalancing:ModifyTargetGroup"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:CreateFunction",
+                "lambda:TagResource",
+                "lambda:ListVersionsByFunction",
+                "s3:DeleteObjectVersion",
+                "lambda:UntagResource",
+                "s3:PutEncryptionConfiguration",
+                "s3:GetObjectAcl",
+                "s3:GetEncryptionConfiguration",
+                "lambda:ListTags",
+                "s3:PutBucketTagging",
+                "s3:PutBucketAcl",
+                "lambda:DeleteFunction",
+                "lambda:GetAlias",
+                "s3:DeleteObject",
+                "s3:PutBucketVersioning",
+                "s3:PutObjectAcl",
+                "s3:PutBucketPublicAccessBlock",
+                "lambda:GetFunction",
+                "lambda:UpdateFunctionConfiguration",
+                "s3:GetBucketAcl",
+                "s3:DeleteBucketPolicy",
+                "lambda:UpdateAlias",
+                "lambda:UpdateFunctionCode",
+                "s3:PutObject",
+                "s3:GetObject",
+                "lambda:AddPermission",
+                "lambda:DeleteAlias",
+                "s3:PutBucketPolicy",
+                "lambda:PublishVersion",
+                "lambda:RemovePermission",
+                "lambda:CreateAlias"
+            ],
+            "Resource": [
+                "arn:aws:lambda:*:562080862179:function:test-*",
+                "arn:aws:s3:::sam-test-luis",
+                "arn:aws:s3:::sam-test-luis/*"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  ProductionStackName:
+    Type: String
+    MinLength: 1
+    MaxLength: 255
+    AllowedPattern: "^[a-zA-Z][-a-zA-Z0-9]*$"
+    Default:  production
+
+Resources:
+  LambdaInvokePermissionDev:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref AliasDev
+      Action: "lambda:InvokeFunction"
+      Principal: elasticloadbalancing.amazonaws.com
+
+  LambdaTargetGroupDev:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckEnabled: false
+      Name: TargetGroupDev
+      TargetType: lambda
+      Targets:
+        - Id: !Ref AliasDev
+
+  AliasDev:
+    Type: AWS::Lambda::Alias
+    Properties:
+      FunctionName:
+        Fn::ImportValue:
+          !Sub '${ProductionStackName}-FunctionArn'
+      FunctionVersion:
+        Fn::ImportValue:
+          !Sub '${ProductionStackName}-FunctionVersion'
+      Name: dev
+
+Outputs:
+  AliasDev:
+    Description: "Hello World Lambda Function ARN"
+    Value: !Ref AliasDev
